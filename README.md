@@ -12,3 +12,15 @@ Idée pour le CMS => Création de ones pages légers et pour différents projets
  - Le CMS doit pouvoir incorporer du JS & AJAX
  - Le CMS doit être sécurisé
  - Le CMS doit pouvoir utiliser des bases de donneés simplement
+
+
+ #Contient :
+ ViteJS - JQuery => AJAX
+ Boostrap => mise en forme simple et rapide
+ stylelint => mise en forme du code
+ CSS & SCSS
+ PHP & Twig - back-end
+
+ #commandes
+
+ npm update | MAJ des paquets
