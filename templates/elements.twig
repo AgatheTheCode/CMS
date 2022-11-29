@@ -1,0 +1,12 @@
+{% extends 'base.twig' %}
+
+{% block page %}
+	<h6>Liste des auteurs</h6>
+	{% for auteur in auteurs %}
+		<p>{{ auteur.nom }}
+			<a href="index.php?page=auteur&id={{ auteur.id }}">détails</a>
+			<a href="index.php?page=auteur&action=edit&id={{ auteur.id }}">modifier</a>
+			<a href="index.php?page=auteur&action=delete&id={{ auteur.id }}">supprimer</a>
+		</p>
+	{% endfor %}
+{% endblock %}

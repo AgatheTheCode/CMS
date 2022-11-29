@@ -1,99 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+// include('../include/config.php');
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Document</title>
-</head>
 
-<body>
-    <ul>
-        <li><a href="controleur.php?page=auteur&action=read">Affichage des auteurs</a></li>
-        <li><a href="controleur.php?page=auteur&action=create">Création d'un auteur</a></li>
-        <form action="controleur.php?page=auteur&action=create" method="post">
-            <input type="text" name="nom" placeholder="Saisir un nom">
-            <input type="text" name="prenom" placeholder="Saisir un prénom">
-            <input type="submit" value="Envoyer">
-        </form>
-        <li><a href="controleur.php?page=auteur&action=update">Modifier un auteur</a></li>
-        </form>
-        <li><a href="controleur.php?page=auteur&action=delete&id=37">Suppression de l'auteur 37</a></li>
-        <li><a href="controleur.php?page=editeur&action=read&id=1">Affichage de l'éditeur </a></li>
-        <li><a href="controleur.php?page=editeur&action=exec">Fausse action sur les éditeurs</a></li>
-        <li><a href="controleur.php?page=xxx">Page inexistante</a></li>
-    </ul>
-<!--
-    <?php
+include('include/function.php');
+include_once('include/twig.php');
 
-    include("include/auteur.php");
-    include("include/connexion.php");
-    // récupération de la variable page sur l'URL
-    if (isset($_GET['page'])) $page = $_GET['page'];
-    else $page = '';
+$twig = init_twig();
 
-    // récupération de la variable action sur l'URL
-    if (isset($_GET['action'])) $action = $_GET['action'];
-    else $action = 'read';
+// Analyse des variables sur l'URL qui définissent la route (page/action/id)
+// Les 3 variables $page, $action, $id sont définies
 
-    // récupération de l'id s'il existe (par convention la clé 0 correspond à un id inexistant)
-    if (isset($_GET['id'])) $id = intval($_GET['id']);
-    else $id = 0;
+// Récupération de la variable page sur l'URL
+if (isset($_GET['page'])) $page = $_GET['page']; else $page = '';
 
-    // test des différents choix
-    // switch ($page) {
-    //     case 'auteur':
-    //         echo '<h1>Page auteur</h1>';
-    //         switch ($action) {
-    //             case 'read':
-    //                 if ($id > 0) {
-    //                     $auteur = Auteur::readOne($id);
-    //                     $auteur->affichedetail();
-    //                 } else {
-    //                     $tableau = Auteur::readAll();
-    //                     foreach ($tableau as $auteur) $auteur->afficher();
-    //                 }
-    //                 break;
-    //             case 'create':
-    //                 $auteur = new Auteur('', '');
-    //                 $auteur->chargePOST();
-    //                 $auteur->create();
-    //                 header("Location: controleur.php?page=auteur&action=read");
-    //                 break;
-    //             case 'edit':
-    //                 $auteur = Auteur::readOne($id);
-    //                 $auteur->afficheform();
-    //                 break;
-    //             case 'update':
-    //                 $auteur = new Auteur('', '');
-    //                 $auteur->chargePOST();
-    //                 $auteur->update();
-    //                 header("Location: controleur.php?page=auteur&action=read");
-    //                 break;
-    //             case 'delete':
-    //                 Auteur::delete($id);
-    //                 header("Location: controleur.php?page=auteur&action=read");
-    //                 break;
-    //             default:
-    //                 echo 'Action non reconnue';
-    //         }
-    //         break;
-    //     case 'editeur':
-    //         echo '<h1>Page éditeur</h1>';
-    //         switch ($action) {
-    //             case 'read':
-    //                 echo 'Affichage de l\'éditeur';
-    //                 break;
-    //             default:
-    //                 echo 'Action non reconnue';
-    //         }
-    //         break;
-    //     default:
-    //         echo '<h1>Page d\'erreur ou page d\'accueil</h1>';
-    // }
-    ?> -->
-</body>
+// Récupération de la variable action sur l'URL
+if (isset($_GET['action'])) $action = $_GET['action']; else $action = 'read';
 
-</html>
+// Récupération de l'id s'il existe (par convention la clé 0 correspond à un id inexistant)
+if (isset($_GET['id'])) $id = intval($_GET['id']); else $id = 0;
+
+/* Le contrôleur analyse la requête ou la route (ici la page à visualiser)
+ * En fonction de la page choisie, il
+ * - détermine la vue à utiliser dans la variable $view
+ * - fait appel au modèle pour récupérer les données dans la variable $data
+ */
+switch ($page) {
+	case 'elements' :
+		switch ($action) {
+			case 'read' :
+				// Affiche l'elements dont l'id est sur l'URL
+				// Utilise la vue elements simple avec un message
+				$view = 'element.twig';
+				$data = [
+					// La requête readOne récupère les données à afficher
+					'elements' => Elements::readOne($id),
+					'message' => 'Détails de l\'elements'
+				];
+				break;
+			case 'create' :
+				// Création d'un elements (vide)
+				$elements = new Elements();
+				// Récupère les données envoyées par le formulaire (POST)
+				$elements->chargePOST();
+				// Requête de création de l'elements
+				$elements->create();
+				// Utilise la vue elements simple avec un message
+				$view = 'elements.twig';
+				$data = [
+					'elements' => $elements,
+					'message' => 'elements créé'
+				];
+				break;
+			case 'edit' :
+				// Modification d'un elements : étape 1 => affiche l'elements dans un formulaire
+				$view = 'edit_elements.twig';
+				// L'elements à modifier est récupéré avec la requête readOne
+				$data = ['elements' => Elements::readOne($id)];
+				break;
+			case 'update' :
+				// Modification d'un elements : étape 2 => met à jour la base de données
+				// Création d'un elements (vide)
+				$elements = new Elements();
+				// Récupère les données du formulaire = l'elements modifié
+				$elements->chargePOST();
+				// Réquête de mise à jour
+				$elements->update();
+				// Utilise la vue elements simple avec un message
+				$view = 'elements.twig';
+				$data = [
+					'elements' => $elements,
+					'message' => 'elements modifié'
+				];
+				break;
+			case 'delete' :
+				// Récupération de l'elements pour l'afficher avant la suppression
+				$elements = Elements::readOne($id);
+				// Supression de l'elements
+				Elements::delete($id);
+				// Utilise la vue elements simple avec un message
+				$view = 'elements.twig';
+				$data = [
+					'elements' => $elements,
+					'message' => 'Suppression de l\'elements'
+				];
+				break;
+			default :
+				// Page vide ou page d'erreur
+				$view = 'base.twig';
+				$data = [];
+		}
+		break;
+	case 'form_elements' :
+		// Page affichant un formulaire de saisie d'un nouvel elements
+		// Pourrait aussi être une action de la page elements
+		$view = 'form_elements.twig';
+		$data = [];
+		break;
+	case 'init' :
+		// Page spéciale pour réinitialiser la base de données
+		Elements::init();
+	case 'elements' :
+	default :
+		// La page d'accueil affiche tous les elementss
+		$view = 'elements.twig';
+		$data = ['elements' => Elements::readAll()];
+}
+
+// Le contrôleur charge la vue avec les données
+echo $twig->render($view, $data);

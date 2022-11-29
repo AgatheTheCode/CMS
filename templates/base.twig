@@ -1,0 +1,14 @@
+
+<!-- Entêtes HTML à ajouter -->
+<!-- code HTML commun à toutes les pages du site -->
+<nav>
+	<a href="index.php">Liste des auteurs</a>
+	<a href="index.php?page=form_auteur">Ajouter un auteur</a>
+</nav>
+
+<!-- bloc pouvant être spécialisé -->
+{% block page %}
+<p>Page d'accueil</p>
+{% endblock %}
+
+<!-- fin du bloc spécialisé -->

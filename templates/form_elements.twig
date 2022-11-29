@@ -1,0 +1,10 @@
+{% extends 'base.twig' %}
+
+{% block page %}
+	<h6>Ajouter un auteur</h6>
+	<form action="index.php?page=auteur&action=create" method="post">
+		<input type="text" name="nom" placeholder="Saisir un nom">
+		<input type="text" name="prenom" placeholder="Saisir un prénom">
+		<input type="submit" value="Créer">
+	</form>
+{% endblock %}

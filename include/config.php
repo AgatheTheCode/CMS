@@ -11,7 +11,7 @@ function connexion()
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 } else {
     //local
-    $pdo = new PDO('mysql:host=localhost;dbname=biblio;charset=utf8', 'root', '');
+    $pdo = new PDO('mysql:host=localhost;dbname=cms_agathe_dufour;charset=utf8', 'root', '');
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
 }
 
