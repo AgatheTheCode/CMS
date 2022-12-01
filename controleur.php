@@ -1,6 +1,6 @@
 <?php
 // include('../include/config.php');
-
+//la co se fait dans le function.php
 
 include('include/function.php');
 include_once('include/twig.php');

@@ -1,0 +1,12 @@
+{% extends "base.twig" %}
+{% for element in elements %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <{{element.balise}} class ="{{element.class}}" href="{{element.href}}" alt="{{element.alt}}" id="{{element.id_css}} role="{{element.role}}">{{ element.content }}</{{element.balise}}>
+            </div>
+        </div>
+    </div>
+        {% endfor %}
+{% endblock %}
