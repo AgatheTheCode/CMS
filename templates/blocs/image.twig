@@ -1,0 +1,12 @@
+	{# {{ parent() }} #}
+{% block content %}
+{% for element in elements %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <{{element.balise}} class="{{element.class}}" href="{{element.src}}" alt="{{element.alt}}" id="{{element.id_css}} role="{{element.role}}">
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}

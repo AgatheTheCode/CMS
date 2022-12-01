@@ -1,6 +1,4 @@
 <?php
-
-
 // Récupère les données GET sur l'URL
 if (isset($_GET['id'])) $id = $_GET['id']; else $id = 0;
 
@@ -19,9 +17,11 @@ $twig = init_twig();
 
 
 include('controleur.php');
+// $elements = Elements::readAll();
 
-var_dump($elements);
+// var_dump($elements);
 
-echo $twig->render('element.twig', [
+echo $twig->render('elements.twig', [
 
+    // 'elements' => $elements,
 ]);
