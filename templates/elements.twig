@@ -1,12 +1,26 @@
 {% extends 'base.twig' %}
 
-{% block page %}
-	<h6>Liste des auteurs</h6>
+{# {% block page %}
+	<h6>Liste des auteurs[elements.twig]</h6>
 	{% for auteur in auteurs %}
 		<p>{{ auteur.nom }}
 			<a href="index.php?page=auteur&id={{ auteur.id }}">détails</a>
 			<a href="index.php?page=auteur&action=edit&id={{ auteur.id }}">modifier</a>
 			<a href="index.php?page=auteur&action=delete&id={{ auteur.id }}">supprimer</a>
 		</p>
+	{% endfor %}
+{% endblock %} #}
+
+{% block page %}
+	{% for element in page %}
+		{% if element.type == 'text' %}
+			{% include 'text.twig' %}
+		{% elseif element.type == 'img' %}
+			{% include 'image.twig' %}
+		{% elseif element.type == 'vid' %}
+			{% include 'video.twig' %}
+		{% elseif element.type == 'link' %}
+			{% include '???.twig' %}
+		{% endif %}
 	{% endfor %}
 {% endblock %}

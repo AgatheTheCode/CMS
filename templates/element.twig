@@ -1,6 +1,14 @@
 {% extends 'base.twig' %}
-
 {% block page %}
-	<h6>{{ message }}</h6>
-	<p>{{ auteur.id }} : {{ auteur.prenom }} {{ auteur.nom }}</p>
+	{% for element in page %}
+		{% if element.type == 'text' %}
+			{% include 'text.twig' %}
+		{% elseif element.type == 'img' %}
+			{% include 'image.twig' %}
+		{% elseif element.type == 'vid' %}
+			{% include 'video.twig' %}
+		{% elseif element.type == 'link' %}
+			{% include '???.twig' %}
+		{% endif %}
+	{% endfor %}
 {% endblock %}
